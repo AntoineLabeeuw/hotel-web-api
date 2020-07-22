@@ -15,7 +15,6 @@ public class ClientDto {
 	/** nom */
 	@NotNull
 	@NotBlank
-	@JsonProperty("nom")
 	private String nom;
 	/** prenoms */
 	@NotNull
