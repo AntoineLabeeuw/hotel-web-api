@@ -36,7 +36,7 @@ public class ClientService {
 	}
 
 	@Transactional
-	public Client CreerClient(String nom, String prenom) {
+	public Client creerClient(String nom, String prenom) {
 		Client cl = new Client();
 		cl.setNom(nom);
 		cl.setPrenoms(prenom);
