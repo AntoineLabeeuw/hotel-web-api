@@ -61,11 +61,11 @@ public class ClientController {
 	 * @param uuid : l'UUID du client
 	 * @return : le client s'il il est trouvé
 	 */
-	@GetMapping("/{chaineCaractere}")
-	public ResponseEntity<?> FindByUUID(@PathVariable String chaineCaractere) {
+	@GetMapping("/{uuidString}")
+	public ResponseEntity<?> findByUUID(@PathVariable String uuidString) {
 		UUID uuid = null;
 		try {
-			uuid = UUID.fromString(chaineCaractere);
+			uuid = UUID.fromString(uuidString);
 		} catch (IllegalArgumentException i) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Spécifiez un UUID valide.\n" +i.getMessage());
 		}
@@ -87,9 +87,9 @@ public class ClientController {
 	@PostMapping
 	public ResponseEntity<?> postClients(@RequestBody @Valid ClientDto client, BindingResult result) {
 		if (result.hasErrors()) {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("le nom et le prénom doivent être valorisés");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Le nom et le prenom doivent etre valorises.");
 		}
-		Client clientBase = clientService.CreerClient(client.getNom(), client.getPrenoms());
+		Client clientBase = clientService.creerClient(client.getNom(), client.getPrenoms());
 		return ResponseEntity.status(HttpStatus.OK).body(clientBase);
 	}
 }
