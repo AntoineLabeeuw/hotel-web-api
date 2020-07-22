@@ -109,11 +109,12 @@ public class ClientControllerTest {
 		c1.setPrenoms("test");
 		c1.setUuid(UUID.fromString("ddd123d1-a1d1-12dd-1234-1d123456d123"));
 		// mockito
-		Mockito.when(service.CreerClient("test", "test")).thenReturn(c1);
+		Mockito.when(service.creerClient("test", "test")).thenReturn(c1);
 		// json body
 		String jsonBody = "{ \"nom\": \"test\", \"prenoms\": \"test\" }";
 		mockMvc.perform(MockMvcRequestBuilders.post("/clients").contentType(MediaType.APPLICATION_JSON)
-				.accept(MediaType.APPLICATION_JSON).content(jsonBody)).andExpect(MockMvcResultMatchers.status().is(200))
+				.accept(MediaType.APPLICATION_JSON).content(jsonBody))
+				.andExpect(MockMvcResultMatchers.status().is(200))
 				.andExpect(MockMvcResultMatchers.jsonPath("$.uuid").value("ddd123d1-a1d1-12dd-1234-1d123456d123"))
 				.andExpect(MockMvcResultMatchers.jsonPath("$.nom").value("test"))
 				.andExpect(MockMvcResultMatchers.jsonPath("$.prenoms").value("test"));
@@ -125,7 +126,8 @@ public class ClientControllerTest {
 		String jsonBody = "{ \"nom\": \"\", \"prenoms\": \"Ross\" }";
 		mockMvc.perform(MockMvcRequestBuilders.post("/clients").contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON).content(jsonBody))
-				.andExpect(MockMvcResultMatchers.status().is(400));
+				.andExpect(MockMvcResultMatchers.status().is(400))
+				.andExpect(MockMvcResultMatchers.content().string("Le nom et le prenom doivent etre valorises."));
 	}
 
 	@Test
@@ -133,7 +135,8 @@ public class ClientControllerTest {
 		String jsonBody = "{ \"nom\": \"Odd\", \"prenoms\": \"\" }";
 		mockMvc.perform(MockMvcRequestBuilders.post("/clients").contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON).content(jsonBody))
-				.andExpect(MockMvcResultMatchers.status().is(400));
+				.andExpect(MockMvcResultMatchers.status().is(400))
+				.andExpect(MockMvcResultMatchers.content().string("Le nom et le prenom doivent etre valorises."));
 	}
 
 	@Test
@@ -141,6 +144,7 @@ public class ClientControllerTest {
 		String jsonBody = "{  }";
 		mockMvc.perform(MockMvcRequestBuilders.post("/clients").contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON).content(jsonBody))
-				.andExpect(MockMvcResultMatchers.status().is(400));
+				.andExpect(MockMvcResultMatchers.status().is(400))
+				.andExpect(MockMvcResultMatchers.content().string("Le nom et le prenom doivent etre valorises."));
 	}
 }
