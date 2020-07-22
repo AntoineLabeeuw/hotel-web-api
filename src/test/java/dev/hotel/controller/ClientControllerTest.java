@@ -95,6 +95,14 @@ public class ClientControllerTest {
 	}
 
 	@Test
+	public void findByUuidUudiTronqueTest() throws Exception {
+		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/clients/dcf"))
+				.andExpect(MockMvcResultMatchers.status().is(400)).andReturn();
+		assertThat(result.getResponse().getContentAsString())
+				.contains("Spécifiez un UUID valide.\nInvalid UUID string: dcf");
+	}
+
+	@Test
 	public void CreerClientTest() throws Exception {
 		Client c1 = new Client();
 		c1.setNom("test");
@@ -110,7 +118,6 @@ public class ClientControllerTest {
 				.andExpect(MockMvcResultMatchers.jsonPath("$.nom").value("test"))
 				.andExpect(MockMvcResultMatchers.jsonPath("$.prenoms").value("test"));
 	}
-
 
 	@Test
 	public void CreerClientNomVideTest() throws Exception {

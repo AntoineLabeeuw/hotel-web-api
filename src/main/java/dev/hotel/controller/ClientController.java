@@ -61,8 +61,14 @@ public class ClientController {
 	 * @param uuid : l'UUID du client
 	 * @return : le client s'il il est trouvé
 	 */
-	@GetMapping("/{uuid}")
-	public ResponseEntity<?> FindByUUID(@PathVariable UUID uuid) {
+	@GetMapping("/{chaineCaractere}")
+	public ResponseEntity<?> FindByUUID(@PathVariable String chaineCaractere) {
+		UUID uuid = null;
+		try {
+			uuid = UUID.fromString(chaineCaractere);
+		} catch (IllegalArgumentException i) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Spécifiez un UUID valide.\n" +i.getMessage());
+		}
 		Optional<Client> client = clientService.findByUuid(uuid);
 		if (!client.isPresent()) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Client non trouvé.");
@@ -72,7 +78,7 @@ public class ClientController {
 	}
 
 	/**
-	 * methode qui permet de rechercher un client dans la BDD à partir de données
+	 * methode qui permet de creer un client dans la BDD à partir de données
 	 * comprises dans un JSON
 	 * 
 	 * @param client : le nom et le prenom du client, au format JSON
