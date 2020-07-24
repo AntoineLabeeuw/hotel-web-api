@@ -1,5 +1,6 @@
 package dev.hotel.controller;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -74,6 +75,24 @@ public class ClientController {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Client non trouvé.");
 		} else {
 			return ResponseEntity.status(HttpStatus.OK).body(client);
+		}
+	}
+	
+	/** methode qui permet de récuperer tous les clients a partir d'un nom donné en entrée
+	 * @param nom : le nom a rechercher
+	 * @return : un ou plusieurs clients
+	 */
+	@GetMapping("recherche/{nom}")
+	public ResponseEntity<?> rechercherParNom(@PathVariable String nom) {
+		if (nom == null) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Vous devez valoriser un nom.");
+		} else {
+			List<Client> clients = clientService.findByNom(nom);
+			if(clients.isEmpty()) {
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Client non trouvé.");
+			} else {
+				return ResponseEntity.status(HttpStatus.OK).body(clients);
+			}
 		}
 	}
 

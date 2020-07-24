@@ -34,6 +34,10 @@ public class ClientService {
 	public Optional<Client> findByUuid(UUID uuid) {
 		return repo.findById(uuid);
 	}
+	
+	public List<Client> findByNom(String nom) {
+		return repo.findByNom(nom);
+	}
 
 	@Transactional
 	public Client creerClient(String nom, String prenom) {
